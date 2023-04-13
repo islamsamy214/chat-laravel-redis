@@ -24,18 +24,18 @@ class RoomController extends Controller
             $his_rooms = Message::where('user_id', $request->user_id)->pluck('room_id');
             $my_rooms = Message::where('user_id', auth()->user()->id)->pluck('room_id');
             $room_id = $his_rooms->intersect($my_rooms)->first();
-            
+
             if ($room_id) {
                 $messages = Message::where('room_id', $room_id)->paginate(20);
             }
-            
+
             dd($messages);
-        }elseif($request->has('room_id')){
+        } elseif ($request->has('room_id')) {
             $messages = Message::where('room_id', $request->room_id)->paginate(20);
-        }else{
+        } else {
             $messages = Message::paginate(20);
         }
-        
+
         return view('room', [
             'users' => User::all(),
             'rooms' => Room::all(),
