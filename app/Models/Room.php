@@ -13,8 +13,8 @@ class Room extends Model
         'name',
     ]; // end of fillable
 
-    public function users()
+    public function messages()
     {
-        return $this->belongsToMany(User::class, 'messages', 'room_id', 'user_id')->withPivot('message');
-    } // end of users relation
+        return $this->hasMany(Message::class);
+    } // end of messages
 }

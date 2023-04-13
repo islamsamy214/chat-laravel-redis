@@ -42,8 +42,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function rooms()
+    public function messages()
     {
-        return $this->belongsToMany(Room::class, 'messages', 'user_id', 'room_id')->wherePivot('user_id', $this->id)->withPivot('message');
-    } // end of rooms relation
+        return $this->hasMany(Message::class);
+    }
 }
