@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/room/chat', [RoomController::class, 'index'])->name('room.index');
+    Route::post('/room/store', [RoomController::class, 'store'])->name('room.store');
 
     Route::get('/t', function () {
         event(new SendMessage(Auth::user()));

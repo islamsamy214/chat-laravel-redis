@@ -28,8 +28,6 @@ class RoomController extends Controller
             if ($room_id) {
                 $messages = Message::where('room_id', $room_id)->paginate(20);
             }
-
-            dd($messages);
         } elseif ($request->has('room_id')) {
             $messages = Message::where('room_id', $request->room_id)->paginate(20);
         } else {
@@ -38,7 +36,7 @@ class RoomController extends Controller
 
         return view('room', [
             'users' => User::all(),
-            'rooms' => Room::all(),
+            'rooms' => $request->user()->rooms,
             'messages' => $messages ?? [],
         ]);
     }
@@ -56,6 +54,7 @@ class RoomController extends Controller
      */
     public function store(StoreRoomRequest $request): Response
     {
+        dd($request->all());
         $message = Message::create([
             'message' => $request->message,
             'room_id' => $request->room_id,

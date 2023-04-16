@@ -17,4 +17,9 @@ class Room extends Model
     {
         return $this->hasMany(Message::class);
     } // end of messages
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'messages', 'room_id', 'user_id')->withPivot('message');
+    } // end of users
 }
