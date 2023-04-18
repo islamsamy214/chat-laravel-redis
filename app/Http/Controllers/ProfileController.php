@@ -21,7 +21,7 @@ class ProfileController extends Controller
         return view('dashboard', [
             'user' => $request->user(),
             'users' => User::all(),
-            'rooms' => $request->user()->rooms,
+            'rooms' => $request->user()->rooms->unique('id'),
         ]);
     }
 

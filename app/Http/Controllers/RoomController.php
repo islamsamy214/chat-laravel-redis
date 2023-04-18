@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\RedirectResponse;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Events\SendMessage;
+use Illuminate\Support\Facades\Auth;
 
 class RoomController extends Controller
 {
@@ -26,17 +27,18 @@ class RoomController extends Controller
             $room_id = $his_rooms->intersect($my_rooms)->first();
 
             if ($room_id) {
-                $messages = Message::where('room_id', $room_id)->paginate(20);
+                // reverse order the collection
+                $messages = Message::where('room_id', $room_id)->latest()->paginate(20);
             }
         } elseif ($request->has('room_id')) {
-            $messages = Message::where('room_id', $request->room_id)->paginate(20);
+            $messages = Message::where('room_id', $request->room_id)->latest()->paginate(20);
+            $room_id = $request->room_id;
         } else {
             $messages = Message::paginate(20);
         }
-
         return view('room', [
             'users' => User::all(),
-            'rooms' => $request->user()->rooms,
+            'room_id' => $room_id ?? null,
             'messages' => $messages ?? [],
         ]);
     }
@@ -52,7 +54,7 @@ class RoomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRoomRequest $request): Response
+    public function store(StoreRoomRequest $request)
     {
         dd($request->all());
         $message = Message::create([
@@ -60,9 +62,9 @@ class RoomController extends Controller
             'room_id' => $request->room_id,
             'user_id' => auth()->user()->id,
         ]);
+        event(new SendMessage(['message' => $message, 'user_name' => auth()->user()->name]));
 
-        // broadcast(new NewChatMessages($newMessage))->toOthers();
-        return Response::json($message, 200);
+        return response()->json($message, 200);
     }
 
     /**

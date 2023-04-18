@@ -4,11 +4,13 @@
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-import axios from 'axios';
+import axios from "axios";
 window.axios = axios;
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
+import $ from "jquery";
+window.$ = $;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -36,9 +38,45 @@ window.Echo = new Echo({
     broadcaster: "socket.io",
     host: window.location.hostname + ":" + window.laravel_echo_port,
 });
-
 let i = 0;
-window.Echo.channel('user-channel').listen('.UserEvent', (data) => {
+window.Echo.channel("user-channel").listen(".UserEvent", (data) => {
     i++;
-    console.log('UserEvent', data);
+    // console.log(data.data[0].message);
+    // console.log(data.data[0].user_name);
+
+    // append message to the chat after the hr with id of message-line
+    $("#message-line").after(
+        `
+        <div class="flex flex-row justify-between mt-3">
+            <div class="flex flex-row">
+                <div class="w-10 h-10 rounded-full bg-gray-300 mr-3"></div>
+                <div class="flex flex-col">
+                    <div class="font-bold">${data.data[0].user_name}</div>
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <div class="text-sm">${data.data[0].message.message}</div>
+                <div class="text-sm text-end">${convertDate(
+                    data.data[0].message.created_at
+                )}</div>
+            </div>
+        </div>
+        `
+    );
 });
+
+const convertDate = (isoDate) => {
+    const date = new Date(isoDate);
+
+    const formattedDate = date
+        .toLocaleString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+        })
+        .replace(",", "");
+    return formattedDate;
+};

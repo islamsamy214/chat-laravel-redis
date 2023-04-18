@@ -32,23 +32,5 @@
                 </div>
             </div>
         </div>
-
-        <div class="py-12 min-w-max">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="mt-3 block w-full text-gray-900 dark:text-gray-100 text-center">Rooms</div>
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        @foreach ($rooms as $room)
-                            <a href="{{ route('room.index', ['room_id' => $room->id]) }}"
-                                class="transition block p-3 w-full text-gray-900 dark:text-gray-100 hover:bg-slate-700 cursor-pointer">
-                                <div class="w-full">{{ $room->name }}</div>
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
     </div>
 </x-app-layout>

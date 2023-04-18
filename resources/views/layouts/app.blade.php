@@ -14,6 +14,11 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script>
+        window.laravel_echo_port = '{{ env('LARAVEL_ECHO_PORT') }}';
+    </script>
+    
+    <script src="//{{ Request::getHost() }}:{{ env('LARAVEL_ECHO_PORT') }}/socket.io/socket.io.js"></script>
 </head>
 
 <body class="font-sans antialiased">
@@ -35,9 +40,5 @@
         </main>
     </div>
 </body>
-<script>
-    window.laravel_echo_port = '{{ env('LARAVEL_ECHO_PORT') }}';
-</script>
 
-<script src="//{{ Request::getHost() }}:{{ env('LARAVEL_ECHO_PORT') }}/socket.io/socket.io.js"></script>
 </html>

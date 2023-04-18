@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // create 10 users each two users are in same room and the User in many to many relationship with the Room
-        \App\Models\Room::factory(10)->create();
-        \App\Models\User::factory(10)->create();
-        \App\Models\Message::factory(100)->create();
+        // \App\Models\Room::factory(10)->create();
+        // \App\Models\User::factory(10)->create();
+        // \App\Models\Message::factory(100)->create();
     }
 }

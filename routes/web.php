@@ -2,11 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Events\SendMessage;
 use App\Http\Controllers\RoomController;
-use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpKernel\Profiler\Profile;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,11 +27,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/room/chat', [RoomController::class, 'index'])->name('room.index');
     Route::post('/room/store', [RoomController::class, 'store'])->name('room.store');
-
-    Route::get('/t', function () {
-        event(new SendMessage(Auth::user()));
-        dd('Event Run Successfully.');
-    });
 });
 
 require __DIR__ . '/auth.php';
