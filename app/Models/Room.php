@@ -11,6 +11,7 @@ class Room extends Model
 
     protected $fillable = [
         'name',
+        'users_ids'
     ]; // end of fillable
 
     public function messages()

@@ -23,7 +23,6 @@ class StoreRoomRequest extends FormRequest
     {
         return [
             'message' => 'required|string',
-            'room_id' => 'required|integer',
         ];
     }
 }

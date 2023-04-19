@@ -20,7 +20,7 @@ class ProfileController extends Controller
     {
         return view('dashboard', [
             'user' => $request->user(),
-            'users' => User::all(),
+            'users' => User::all()->except(auth()->user()->id),
             'rooms' => $request->user()->rooms->unique('id'),
         ]);
     }

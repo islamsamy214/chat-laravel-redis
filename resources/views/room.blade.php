@@ -40,7 +40,12 @@
                                 <div class="flex flex-col w-full px-4">
                                     <div class="text-sm">
                                         <textarea name="message" id="message" class="w-full dark:bg-gray-800 hover:border-slate-700 focus:border-slate-700"></textarea>
-                                        <input type="hidden" name="room_id" id="room_id" value="{{ $room_id }}">
+                                        @isset($room_id)
+                                            <input type="hidden" name="room_id" id="room_id" value="{{ $room_id }}">
+                                        @endisset
+                                        @isset($user_id)
+                                            <input type="hidden" name="user_id" id="user_id" value="{{ $user_id }}">
+                                        @endisset
                                         <small class="text-red-600"
                                             id="error">{{ $errors->first('message') }}</small>
                                     </div>
@@ -75,11 +80,7 @@
         </div>
     </div>
 </x-app-layout>
-
 <script>
-    // import $ from 'jquery';
-    // window.$ = window.jQuery = $;
-    // send message
     $ajaxForm = $('#send-form');
     $ajaxForm.submit(function(e) {
         e.preventDefault();
@@ -88,15 +89,10 @@
             url: '{{ route('room.store') }}',
             data: $ajaxForm.serialize(),
             success: function(response) {
-                if (response.status == 200) {
-                    $('#message').val('');
-                    $('#message-line').before(response.data);
-                } else {
-                    $('#error').text(response.message);
-                }
+                console.log(response);
             },
             error: function(error) {
-                console.log(error);
+                $('#error').text(error.responseJSON.message);
             }
         });
     });
