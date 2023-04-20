@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                         </form>
-                        <hr class="my-4" id="message-line" />
+                        <div class="my-4" id="message-line"></div>
                         {{-- messages --}}
                         @foreach ($messages as $message)
                             <div class="flex flex-row justify-between mt-3">

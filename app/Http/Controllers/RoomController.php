@@ -18,8 +18,8 @@ class RoomController extends Controller
     public function index(Request $request): View
     {
         if ($request->has('user_id')) {
-            dd('this query is working but its not properly working in ORM',"SELECT * FROM rooms WHERE users_ids->'$.user_id_12' = 12 AND users_ids->'$.user_id_1' = 1");
-            $room = Room::where("users_ids->'$.user_id_'".auth()->user()->id." = ".auth()->user()->id." AND users_ids->'$.user_id_".$request->user_id."' = ".$request->user_id)->first();
+            // dd('this query is working but its not properly working in ORM', "SELECT * FROM rooms WHERE users_ids->'$.user_id_12' = 12 AND users_ids->'$.user_id_1' = 1");
+            $room = Room::whereRaw("users_ids->'$.user_id_" . auth()->user()->id . "' = " . auth()->user()->id . " AND users_ids->'$.user_id_" . $request->user_id . "' = " . $request->user_id . "")->first();
             if ($room) {
                 $messages = Message::where('room_id', $room->id)->latest()->paginate(20);
                 $room_id = $room->id;
