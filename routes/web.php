@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\SendPrivateMessage;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
@@ -26,7 +27,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/room/chat', [RoomController::class, 'index'])->name('room.index');
-    Route::post('/room/store', [RoomController::class, 'store'])->name('room.store');
+    Route::post('/room/store', [RoomController::class, 'store'])->name('room.store');    
+});
+
+Route::get('/private-broadcast/auth', function () {
+    broadcast(new SendPrivateMessage(auth()->user()));
 });
 
 require __DIR__ . '/auth.php';

@@ -14,9 +14,9 @@
 
     <!-- Scripts -->
     <script>
-        window.Laravel = {{ json_encode([
+        window.Laravel = {!! json_encode([
             'user' => auth()->check() ? auth()->user()->id : null,
-        ]) }};
+        ]) !!};
     </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

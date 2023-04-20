@@ -9,6 +9,7 @@ use Illuminate\View\View;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Events\SendMessage;
+use App\Events\SendPrivateMessage;
 
 class RoomController extends Controller
 {
@@ -59,7 +60,8 @@ class RoomController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        event(new SendMessage(['message' => $message, 'user_name' => auth()->user()->name]));
+        // event(new SendMessage(['message' => $message, 'user_name' => auth()->user()->name]));
+        broadcast(new SendPrivateMessage(auth()->user()));
 
         return response()->json($message, 200);
     } // end of store
