@@ -89,7 +89,7 @@
             url: '{{ route('room.store') }}',
             data: $ajaxForm.serialize(),
             success: function(response) {
-                console.log(response);
+                // console.log(response);
             },
             error: function(error) {
                 $('#error').text(error.responseJSON.message);

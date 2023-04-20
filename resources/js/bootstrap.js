@@ -38,13 +38,10 @@ window.Echo = new Echo({
     broadcaster: "socket.io",
     host: window.location.hostname + ":" + window.laravel_echo_port,
 });
-let i = 0;
-window.Echo.channel("user-channel").listen(".UserEvent", (data) => {
-    i++;
-    // console.log(data.data[0].message);
-    // console.log(data.data[0].user_name);
 
-    // append message to the chat after the hr with id of message-line
+let i = 0;
+window.Echo.channel("user-channel").listen(".UsersEvent", (data) => {
+    i++;
     $("#message-line").after(
         `
         <div class="flex flex-row justify-between mt-3">
@@ -80,3 +77,11 @@ const convertDate = (isoDate) => {
         .replace(",", "");
     return formattedDate;
 };
+
+window.Echo.private("user." + window.Laravel.user).listen(
+    ".UserPrivateEvent",
+    (e) => {
+        console.log(window.Laravel.user);
+        console.log(e);
+    }
+);
