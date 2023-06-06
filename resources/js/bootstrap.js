@@ -77,12 +77,3 @@ const convertDate = (isoDate) => {
         .replace(",", "");
     return formattedDate;
 };
-
-window.Echo.private("user." + window.Laravel.user).listen(
-    ".UserPrivateEvent",
-    (e) => {
-        console.log('ssss');
-        console.log(window.Laravel.user);
-        console.log(e);
-    }
-);

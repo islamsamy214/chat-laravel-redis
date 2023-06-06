@@ -20,7 +20,7 @@ class SendMessage implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct($data)
+    public function __construct($data = [])
     {
         array_push($this->data, $data);
     }
@@ -35,9 +35,6 @@ class SendMessage implements ShouldBroadcastNow
         return [
             new Channel('user-channel')
         ];
-        // return [
-        //     new PrivateChannel('channel-name'),
-        // ];
     }
 
     public function broadcastAs()

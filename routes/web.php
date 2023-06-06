@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\SendMessage;
 use App\Events\SendPrivateMessage;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [ProfileController::class,'index'])->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', [ProfileController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -27,11 +28,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/room/chat', [RoomController::class, 'index'])->name('room.index');
-    Route::post('/room/store', [RoomController::class, 'store'])->name('room.store');    
+    Route::post('/room/store', [RoomController::class, 'store'])->name('room.store');
 });
 
-Route::get('/private-broadcast/auth', function () {
-    broadcast(new SendPrivateMessage(auth()->user()));
+// Route::get('/private-broadcast/auth', function () {
+//     broadcast(new SendPrivateMessage([]));
+// });
+
+
+Route::get('/broadcast/auth', function () {
+    broadcast(new SendMessage());
 });
 
 require __DIR__ . '/auth.php';

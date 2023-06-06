@@ -8,8 +8,8 @@ use App\Models\Room;
 use Illuminate\View\View;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Events\SendMessage;
 use App\Events\SendPrivateMessage;
+use App\Events\SendMessage;
 
 class RoomController extends Controller
 {
@@ -60,8 +60,8 @@ class RoomController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        // event(new SendMessage(['message' => $message, 'user_name' => auth()->user()->name]));
-        broadcast(new SendPrivateMessage(auth()->user()));
+        event(new SendMessage(['message' => $message, 'user_name' => auth()->user()->name]));
+        // event(new SendPrivateMessage(['message' => $message, 'user' => auth()->user()->name]));
 
         return response()->json($message, 200);
     } // end of store
